@@ -14,6 +14,7 @@
 
 /**
  * @typedef 損益情報
+ * @property {string} Section名
  * @property {number} 評価損益の合計
  * @property {number} 評価額の合計
  * @property {number} 評価損益率
@@ -83,7 +84,7 @@ function 対象テーブルから必要な合計額を抽出(t) {
     const 評価額の合計 = calculateColumnTotal(対象テーブル, t.評価額カラムIndex);
     const 評価損益率 = 評価損益の合計 / (評価額の合計 - 評価損益の合計);
     const 元本額の合計 = 評価額の合計 - 評価損益の合計;
-    return { 評価損益の合計, 評価額の合計, 評価損益率, 元本額の合計 };
+    return { Section名: t.対象名, 評価損益の合計, 評価額の合計, 評価損益率, 元本額の合計 };
 }
 
 /**
@@ -108,10 +109,7 @@ function 各Sectionに評価損益の合計を表示() {
     評価損益の合計を表示させる対象.forEach((t) => {
         const 合計結果 = 対象テーブルから必要な合計額を抽出(t);
         対象の合計額の見出しの更新(t, 合計結果.評価損益の合計, 合計結果.評価損益率);
-        各セクション毎の損益情報.push({
-            名前: t.対象名,
-            ...合計結果,
-        });
+        各セクション毎の損益情報.push(合計結果);
     });
     return 各セクション毎の損益情報;
 }
@@ -120,6 +118,9 @@ function 各Sectionに評価損益の合計を表示() {
  * @param {損益情報[]} 各Sectionの損益情報
  */
 function 各Sectionの損益情報の合計をページ上部見出しに表示する(各Sectionの損益情報) {
+    // 不要な広告は削除
+    document.querySelector('.mf-col-custom-ad').remove();
+
     /** @type {各Sectionの損益情報合計結果} */
     const 合計結果 = 各Sectionの損益情報.reduce((acc, current) => {
         Object.keys(current).forEach((key) => {
@@ -138,14 +139,59 @@ function 各Sectionの損益情報の合計をページ上部見出しに表示�
     ページ上部見出し.classList.remove('mf-mb20');
     ページ上部見出し.classList.add('mf-mb0');
 
-    const 損益合計の表示先 = ページ上部見出し.cloneNode();
-    損益合計の表示先.textContent = `評価損益： ${合計結果.評価損益の合計.toLocaleString()}円`;
+    const 評価損益合計の表示先 = ページ上部見出し.cloneNode();
+    評価損益合計の表示先.textContent = `評価損益： ${合計結果.評価損益の合計.toLocaleString()}円`;
     // オリジナルの要素の後ろにクローンを挿入
     if (ページ上部見出し.nextSibling) {
         // オリジナルの要素に次の兄弟要素がある場合、その前にクローンを挿入
-        ページ上部見出し.parentNode.insertBefore(損益合計の表示先, ページ上部見出し.nextSibling);
+        ページ上部見出し.parentNode.insertBefore(評価損益合計の表示先, ページ上部見出し.nextSibling);
     } else {
         // オリジナルの要素が親の最後の子要素の場合、クローンを親の最後に追加
-        ページ上部見出し.parentNode.appendChild(損益合計の表示先);
+        ページ上部見出し.parentNode.appendChild(評価損益合計の表示先);
     }
+
+    // 評価損益の内訳を見出し作成
+    const 資産の内訳 = document.querySelector('section.bs-total-assets > h1.heading-small');
+    const 評価損益の内訳 = 資産の内訳.cloneNode();
+    評価損益の内訳.textContent = '評価損益の内訳';
+    評価損益の内訳.style.borderLeftColor = 'green';
+    資産の内訳.parentNode.appendChild(評価損益の内訳);
+
+    // 評価損益の内訳テーブルを作成
+    // テーブル要素を作成
+    const 評価損益の内訳テーブル = document.createElement('table');
+    評価損益の内訳テーブル.classList.add('table', 'table-bordered');
+    const 行情報 = [
+        ['投資信託', 'portfolio_det_mf', 各Sectionの損益情報.find((v) => v.Section名 === '投資信託').評価損益の合計],
+        ['年金', 'portfolio_det_pns', 各Sectionの損益情報.find((v) => v.Section名 === '年金').評価損益の合計],
+    ];
+    for (let i = 0; i < 行情報.length; i++) {
+        const tr = document.createElement('tr');
+
+        // 見出し列のSection名を追加
+        const Section名 = document.createElement('th');
+        const icon = document.createElement('img');
+        icon.src =
+            'https://assets.moneyforward.com/assets/bs/icon_table_arrow-528280ce2bfa721a3a1ee5b7c9bfc6e14aee0a27737c4a3bf34d854cbae2091f.png';
+        const link = document.createElement('a');
+        link.href = `portfolio#${行情報[i][1]}`;
+        link.textContent = 行情報[i][0];
+        Section名.append(icon);
+        Section名.append(link);
+        tr.append(Section名);
+
+        // 評価損益を追加
+        const 評価損益 = document.createElement('td');
+        評価損益.textContent = `${行情報[i][2].toLocaleString()}円`;
+        tr.append(評価損益);
+
+        // 割合を追加
+        const 割合 = document.createElement('td');
+        割合.textContent = `${((行情報[i][2] / 合計結果.評価損益の合計) * 100).toFixed(2)}%`;
+        tr.append(割合);
+
+        // 行をテーブルに追加
+        評価損益の内訳テーブル.appendChild(tr);
+    }
+    ページ上部見出し.parentNode.appendChild(評価損益の内訳テーブル);
 }
