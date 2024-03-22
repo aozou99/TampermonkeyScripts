@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MoneyforwardMe
 // @namespace    https://github.com/aozou99/TempermonkeyScripts
-// @version      v0.0.2
+// @version      v0.0.3
 // @description  Make a few changes to the design of MoneyforwardME
 // @author       A.A
 // @match        https://moneyforward.com/bs/portfolio
@@ -42,7 +42,7 @@
 })();
 
 // 指定されたカラムの値の合計を計算する関数
-const calculateColumnTotal = (table, columnIndex) => {
+function calculateColumnTotal(table, columnIndex) {
     const rows = table.getElementsByTagName('tr');
     let total = 0;
 
@@ -63,33 +63,33 @@ const calculateColumnTotal = (table, columnIndex) => {
     }
 
     return total;
-};
+}
 
-const 対象の合計額の見出しの更新 = (t, 損益評価額の合計, 評価損益率) => {
+function 対象の合計額の見出しの更新(t, 損益評価額の合計, 評価損益率) {
     // 対象の合計額の見出し
     const 対象の合計額の見出し = document.querySelector(`#${t.id}>section>h1.heading-small`);
     対象の合計額の見出し.textContent += `(損益評価額: ${損益評価額の合計.toLocaleString()}円, 評価損益率: ${(
         評価損益率 * 100
     ).toFixed(2)}%)`;
-};
+}
 
 /**
  * @param {評価損益の合計を表示させる対象} t
  * @returns {損益情報}
  */
-const 対象テーブルから必要な合計額を抽出 = (t) => {
+function 対象テーブルから必要な合計額を抽出(t) {
     const 対象テーブル = document.querySelector(`#${t.id}>table`);
     const 損益評価額の合計 = calculateColumnTotal(対象テーブル, t.評価損益カラムIndex);
     const 評価額の合計 = calculateColumnTotal(対象テーブル, t.評価額カラムIndex);
     const 評価損益率 = 損益評価額の合計 / (評価額の合計 - 損益評価額の合計);
     const 元本額の合計 = 評価額の合計 - 損益評価額の合計;
     return { 損益評価額の合計, 評価額の合計, 評価損益率, 元本額の合計 };
-};
+}
 
 /**
  * @returns {損益情報[]}
  */
-const 各Sectionに評価損益の合計を表示 = () => {
+function 各Sectionに評価損益の合計を表示() {
     const 各セクション毎の損益情報 = [];
     const 評価損益の合計を表示させる対象 = [
         {
@@ -114,12 +114,12 @@ const 各Sectionに評価損益の合計を表示 = () => {
         });
     });
     return 各セクション毎の損益情報;
-};
+}
 
 /**
  * @param {損益情報[]} 各Sectionの損益情報
  */
-const 各Sectionの損益情報の合計をページ上部見出しに表示する = (各Sectionの損益情報) => {
+function 各Sectionの損益情報の合計をページ上部見出しに表示する(各Sectionの損益情報) {
     /** @type {各Sectionの損益情報合計結果} */
     const 合計結果 = 各Sectionの損益情報.reduce((acc, current) => {
         Object.keys(current).forEach((key) => {
@@ -135,4 +135,4 @@ const 各Sectionの損益情報の合計をページ上部見出しに表示す�
     }, {});
     const ページ上部見出し = document.querySelector('section.bs-total-assets > div.heading-radius-box');
     ページ上部見出し.textContent += `損益評価額: ${合計結果.損益評価額の合計}`;
-};
+}
