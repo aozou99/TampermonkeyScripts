@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MoneyforwardMe
 // @namespace    https://github.com/aozou99/TempermonkeyScripts
-// @version      v0.0.4
+// @version      v0.0.6
 // @description  Make a few changes to the design of MoneyforwardME
 // @author       A.A
 // @match        https://moneyforward.com/bs/portfolio
@@ -14,7 +14,7 @@
 
 /**
  * @typedef 損益情報
- * @property {number} 損益評価額の合計
+ * @property {number} 評価損益の合計
  * @property {number} 評価額の合計
  * @property {number} 評価損益率
  * @property {number} 元本額の合計
@@ -22,7 +22,7 @@
 
 /**
  * @typedef 各Sectionの損益情報合計結果
- * @property {number} 損益評価額の合計
+ * @property {number} 評価損益の合計
  * @property {number} 評価額の合計
  * @property {number} 元本額の合計
  */
@@ -65,10 +65,10 @@ function calculateColumnTotal(table, columnIndex) {
     return total;
 }
 
-function 対象の合計額の見出しの更新(t, 損益評価額の合計, 評価損益率) {
+function 対象の合計額の見出しの更新(t, 評価損益の合計, 評価損益率) {
     // 対象の合計額の見出し
     const 対象の合計額の見出し = document.querySelector(`#${t.id}>section>h1.heading-small`);
-    対象の合計額の見出し.textContent += `(損益評価額: ${損益評価額の合計.toLocaleString()}円, 評価損益率: ${(
+    対象の合計額の見出し.textContent += `(評価損益： ${評価損益の合計.toLocaleString()}円、 評価損益率： ${(
         評価損益率 * 100
     ).toFixed(2)}%)`;
 }
@@ -79,11 +79,11 @@ function 対象の合計額の見出しの更新(t, 損益評価額の合計, �
  */
 function 対象テーブルから必要な合計額を抽出(t) {
     const 対象テーブル = document.querySelector(`#${t.id}>table`);
-    const 損益評価額の合計 = calculateColumnTotal(対象テーブル, t.評価損益カラムIndex);
+    const 評価損益の合計 = calculateColumnTotal(対象テーブル, t.評価損益カラムIndex);
     const 評価額の合計 = calculateColumnTotal(対象テーブル, t.評価額カラムIndex);
-    const 評価損益率 = 損益評価額の合計 / (評価額の合計 - 損益評価額の合計);
-    const 元本額の合計 = 評価額の合計 - 損益評価額の合計;
-    return { 損益評価額の合計, 評価額の合計, 評価損益率, 元本額の合計 };
+    const 評価損益率 = 評価損益の合計 / (評価額の合計 - 評価損益の合計);
+    const 元本額の合計 = 評価額の合計 - 評価損益の合計;
+    return { 評価損益の合計, 評価額の合計, 評価損益率, 元本額の合計 };
 }
 
 /**
@@ -107,7 +107,7 @@ function 各Sectionに評価損益の合計を表示() {
     ];
     評価損益の合計を表示させる対象.forEach((t) => {
         const 合計結果 = 対象テーブルから必要な合計額を抽出(t);
-        対象の合計額の見出しの更新(t, 合計結果.損益評価額の合計, 合計結果.評価損益率);
+        対象の合計額の見出しの更新(t, 合計結果.評価損益の合計, 合計結果.評価損益率);
         各セクション毎の損益情報.push({
             名前: t.対象名,
             ...合計結果,
@@ -133,6 +133,19 @@ function 各Sectionの損益情報の合計をページ上部見出しに表示�
         });
         return acc;
     }, {});
+
     const ページ上部見出し = document.querySelector('section.bs-total-assets > div.heading-radius-box');
-    ページ上部見出し.textContent += `\n損益評価額: ${合計結果.損益評価額の合計.toLocaleString()}円`;
+    ページ上部見出し.classList.remove('mf-mb20');
+    ページ上部見出し.classList.add('mf-mb0');
+
+    const 損益合計の表示先 = ページ上部見出し.cloneNode();
+    損益合計の表示先.textContent = `評価損益： ${合計結果.評価損益の合計.toLocaleString()}円`;
+    // オリジナルの要素の後ろにクローンを挿入
+    if (ページ上部見出し.nextSibling) {
+        // オリジナルの要素に次の兄弟要素がある場合、その前にクローンを挿入
+        ページ上部見出し.parentNode.insertBefore(損益合計の表示先, ページ上部見出し.nextSibling);
+    } else {
+        // オリジナルの要素が親の最後の子要素の場合、クローンを親の最後に追加
+        ページ上部見出し.parentNode.appendChild(損益合計の表示先);
+    }
 }
