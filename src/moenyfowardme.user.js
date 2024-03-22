@@ -7,8 +7,8 @@
 // @match        https://moneyforward.com/bs/portfolio
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
 // @grant        none
-// @updateURL    https://github.com/aozou99/TempermonkeyScripts/raw/master/src/moenyfowardme.user.js
-// @downloadURL  https://github.com/aozou99/TempermonkeyScripts/raw/master/src/moenyfowardme.user.js
+// @updateURL    https://github.com/aozou99/TempermonkeyScripts/raw/main/src/moenyfowardme.user.js
+// @downloadURL  https://github.com/aozou99/TempermonkeyScripts/raw/main/src/moenyfowardme.user.js
 // @supportURL   https://github.com/aozou99/TempermonkeyScripts
 // ==/UserScript==
 
