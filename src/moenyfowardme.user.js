@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MoneyforwardMe
 // @namespace    https://github.com/aozou99/TempermonkeyScripts
-// @version      v0.0.6
+// @version      v0.1.0
 // @description  Make a few changes to the design of MoneyforwardME
 // @author       A.A
 // @match        https://moneyforward.com/bs/portfolio
