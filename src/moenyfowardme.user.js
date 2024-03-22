@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MoneyforwardMe
 // @namespace    https://github.com/aozou99/TempermonkeyScripts
-// @version      v0.0.3
+// @version      v0.0.4
 // @description  Make a few changes to the design of MoneyforwardME
 // @author       A.A
 // @match        https://moneyforward.com/bs/portfolio
@@ -134,5 +134,5 @@ function 各Sectionの損益情報の合計をページ上部見出しに表示�
         return acc;
     }, {});
     const ページ上部見出し = document.querySelector('section.bs-total-assets > div.heading-radius-box');
-    ページ上部見出し.textContent += `損益評価額: ${合計結果.損益評価額の合計}`;
+    ページ上部見出し.textContent += `\n損益評価額: ${合計結果.損益評価額の合計.toLocaleString()}円`;
 }
