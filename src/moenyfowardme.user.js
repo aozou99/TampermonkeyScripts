@@ -1,12 +1,15 @@
 // ==UserScript==
 // @name         MoneyforwardMe
-// @namespace    xxx
+// @namespace    https://github.com/aozou99/TempermonkeyScripts
 // @version      v0.0.1
 // @description  Make a few changes to the design of MoneyforwardME
 // @author       A.A
 // @match        https://moneyforward.com/bs/portfolio
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
 // @grant        none
+// @updateURL    https://github.com/aozou99/TempermonkeyScripts/raw/master/src/moenyfowardme.user.js
+// @downloadURL  https://github.com/aozou99/TempermonkeyScripts/raw/master/src/moenyfowardme.user.js
+// @supportURL   https://github.com/aozou99/TempermonkeyScripts
 // ==/UserScript==
 
 (function () {
