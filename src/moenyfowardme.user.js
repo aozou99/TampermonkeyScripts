@@ -1,11 +1,11 @@
 // ==UserScript==
-// @name         MoneyforwardMe
+// @name         マネーフォワードME Web
 // @namespace    https://github.com/aozou99/TempermonkeyScripts
-// @version      v0.1.0
+// @version      v0.1.1
 // @description  Make a few changes to the design of MoneyforwardME
 // @author       A.A
 // @match        https://moneyforward.com/bs/portfolio
-// @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
+// @iconURL      https://assets.moneyforward.com/assets/favicon-710b014dd04a85070bb0a55fa894b599015b5310333d38da9c85ad03594bbc20.ico
 // @grant        none
 // @updateURL    https://github.com/aozou99/TempermonkeyScripts/raw/main/src/moenyfowardme.user.js
 // @downloadURL  https://github.com/aozou99/TempermonkeyScripts/raw/main/src/moenyfowardme.user.js
@@ -162,10 +162,18 @@ function 各Sectionの損益情報の合計をページ上部見出しに表示�
     const 評価損益の内訳テーブル = document.createElement('table');
     評価損益の内訳テーブル.classList.add('table', 'table-bordered');
     const 行情報 = [
-        ['投資信託', 'portfolio_det_mf', 各Sectionの損益情報.find((v) => v.Section名 === '投資信託').評価損益の合計],
-        ['年金', 'portfolio_det_pns', 各Sectionの損益情報.find((v) => v.Section名 === '年金').評価損益の合計],
+        {
+            タイトル: '投資信託',
+            リンク先: 'portfolio_det_mf',
+            評価損益: 各Sectionの損益情報.find((v) => v.Section名 === '投資信託').評価損益の合計,
+        },
+        {
+            タイトル: '年金',
+            リンク先: 'portfolio_det_pns',
+            評価損益: 各Sectionの損益情報.find((v) => v.Section名 === '年金').評価損益の合計,
+        },
     ];
-    for (let i = 0; i < 行情報.length; i++) {
+    行情報.forEach((t) => {
         const tr = document.createElement('tr');
 
         // 見出し列のSection名を追加
@@ -174,24 +182,24 @@ function 各Sectionの損益情報の合計をページ上部見出しに表示�
         icon.src =
             'https://assets.moneyforward.com/assets/bs/icon_table_arrow-528280ce2bfa721a3a1ee5b7c9bfc6e14aee0a27737c4a3bf34d854cbae2091f.png';
         const link = document.createElement('a');
-        link.href = `portfolio#${行情報[i][1]}`;
-        link.textContent = 行情報[i][0];
+        link.href = `portfolio#${t.リンク先}`;
+        link.textContent = t.タイトル;
         Section名.append(icon);
         Section名.append(link);
         tr.append(Section名);
 
         // 評価損益を追加
         const 評価損益 = document.createElement('td');
-        評価損益.textContent = `${行情報[i][2].toLocaleString()}円`;
+        評価損益.textContent = `${t.評価損益.toLocaleString()}円`;
         tr.append(評価損益);
 
         // 割合を追加
         const 割合 = document.createElement('td');
-        割合.textContent = `${((行情報[i][2] / 合計結果.評価損益の合計) * 100).toFixed(2)}%`;
+        割合.textContent = `${((t.評価損益 / 合計結果.評価損益の合計) * 100).toFixed(2)}%`;
         tr.append(割合);
 
         // 行をテーブルに追加
         評価損益の内訳テーブル.appendChild(tr);
-    }
+    });
     ページ上部見出し.parentNode.appendChild(評価損益の内訳テーブル);
 }
