@@ -7,8 +7,8 @@
 // @match        https://moneyforward.com/bs/portfolio
 // @iconURL      https://assets.moneyforward.com/assets/favicon-710b014dd04a85070bb0a55fa894b599015b5310333d38da9c85ad03594bbc20.ico
 // @grant        none
-// @updateURL    https://github.com/aozou99/TempermonkeyScripts/raw/main/src/moenyfowardme.user.js
-// @downloadURL  https://github.com/aozou99/TempermonkeyScripts/raw/main/src/moenyfowardme.user.js
+// @updateURL    https://github.com/aozou99/TempermonkeyScripts/raw/main/src/moneyforward.user.js
+// @downloadURL  https://github.com/aozou99/TempermonkeyScripts/raw/main/src/moneyforward.user.js
 // @supportURL   https://github.com/aozou99/TempermonkeyScripts
 // ==/UserScript==
 
@@ -139,16 +139,20 @@ function 各Sectionの損益情報の合計をページ上部見出しに表示�
     ページ上部見出し.classList.remove('mf-mb20');
     ページ上部見出し.classList.add('mf-mb0');
 
-    const 評価損益合計の表示先 = ページ上部見出し.cloneNode();
-    評価損益合計の表示先.textContent = `評価損益： ${合計結果.評価損益の合計.toLocaleString()}円`;
-    // オリジナルの要素の後ろにクローンを挿入
-    if (ページ上部見出し.nextSibling) {
-        // オリジナルの要素に次の兄弟要素がある場合、その前にクローンを挿入
-        ページ上部見出し.parentNode.insertBefore(評価損益合計の表示先, ページ上部見出し.nextSibling);
-    } else {
-        // オリジナルの要素が親の最後の子要素の場合、クローンを親の最後に追加
-        ページ上部見出し.parentNode.appendChild(評価損益合計の表示先);
-    }
+    const ページ上部見出しに表示する = (表示テキスト配列) => {
+        let currentNode = ページ上部見出し.nextSibling;
+
+        表示テキスト配列.forEach((表示テキスト) => {
+            const newNode = ページ上部見出し.cloneNode();
+            newNode.textContent = 表示テキスト;
+            ページ上部見出し.parentNode.insertBefore(newNode, currentNode.nextSibling);
+            currentNode = newNode;
+        });
+    };
+    ページ上部見出しに表示する([
+        `有価証券： ${合計結果.評価額の合計.toLocaleString()}円`,
+        `評価損益： ${合計結果.評価損益の合計.toLocaleString()}円`,
+    ]);
 
     // 評価損益の内訳を見出し作成
     const 資産の内訳 = document.querySelector('section.bs-total-assets > h1.heading-small');
