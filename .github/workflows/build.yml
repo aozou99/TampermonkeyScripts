@@ -1,0 +1,36 @@
+name: Build and Commit
+
+on:
+    push:
+        branches:
+            - main
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: '22'
+
+            - name: Install dependencies
+              run: npm install
+
+            - name: Build project
+              run: npx webpack
+
+            - name: Commit and push changes
+              run: |
+                  git config --global user.name 'github-actions[bot]'
+                  git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+                  git add dist/moneyforwardme.user.js
+                  git add dist/moneyforwardme.meta.js
+                  git commit -m 'Build and commit from GitHub Actions'
+                  git push origin main
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
