@@ -3,7 +3,10 @@
         "target": "ES5",
         "lib": ["DOM", "es7"],
         "outDir": "./dist",
-        "strict": true
+        "strict": true,
+        "module": "commonjs",
+        "esModuleInterop": true,
+        "skipLibCheck": true
     },
     "include": ["./src/**/*"]
 }

@@ -14,5 +14,12 @@
     "bugs": {
         "url": "https://github.com/aozou99/TampermonkeyScripts/issues"
     },
-    "homepage": "https://github.com/aozou99/TampermonkeyScripts#readme"
+    "homepage": "https://github.com/aozou99/TampermonkeyScripts#readme",
+    "devDependencies": {
+        "ts-loader": "^9.5.1",
+        "typescript": "^5.4.5",
+        "webpack": "^5.91.0",
+        "webpack-cli": "^5.1.4",
+        "webpack-userscript": "^3.2.2"
+    }
 }
