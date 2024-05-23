@@ -117,10 +117,12 @@ function displayTotalProfitLossAtTop(sectionInfo: ProfitLossInfo[]): void {
             `評価損益： ${totalResult.評価損益の合計.toLocaleString()}円`,
         ];
 
+        let currentNode = headingElement;
         displayTexts.forEach((text) => {
-            const newNode = headingElement.cloneNode() as HTMLElement;
+            const newNode = currentNode.cloneNode() as HTMLElement;
             newNode.textContent = text;
-            headingElement.parentNode?.insertBefore(newNode, headingElement.nextSibling);
+            currentNode.parentNode?.insertBefore(newNode, currentNode.nextSibling);
+            currentNode = newNode;
         });
     }
 
