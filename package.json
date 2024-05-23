@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "description": "## 概要 思い付きで作ったUserScript置き場です。   [Tampermonkey](https://chromewebstore.google.com/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=ja)で使うことを想定しています。",
     "scripts": {
-        "tsc": "tsc -p tsconfig.json"
+        "build": "npx webpack --mode=production"
     },
     "repository": {
         "type": "git",
