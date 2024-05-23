@@ -9,8 +9,8 @@
         "type": "git",
         "url": "git+https://github.com/aozou99/TampermonkeyScripts.git"
     },
-    "author": "",
-    "license": "ISC",
+    "author": "A.A",
+    "license": "MIT",
     "bugs": {
         "url": "https://github.com/aozou99/TampermonkeyScripts/issues"
     },
