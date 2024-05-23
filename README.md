@@ -4,7 +4,7 @@
 思い付きで作ったUserScript置き場です。  
 [Tampermonkey](https://chromewebstore.google.com/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=ja)で使うことを想定しています。
 
-### [moenyfowardme.user.js](src/moenyfowardme.user.js)
+### [moenyfowardme.user.js](dist/moneyforward.user.js)
 Web版のマネーフォワードMEで、今投資でどのぐらい儲かっているのか一目で分かるようにしたくて作りました。  
 評価損益をまとめて表示させています。
 
