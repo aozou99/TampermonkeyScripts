@@ -1,1 +1,3 @@
-export function handleHistoryPage(): void {}
+export function handleHistoryPage(): void {
+    console.log('todo impliments');
+}
