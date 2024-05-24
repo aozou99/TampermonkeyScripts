@@ -1,25 +1,25 @@
 {
-    "name": "temper-monkey-scripts",
-    "version": "0.1.2",
-    "description": "## 概要 思い付きで作ったUserScript置き場です。   [Tampermonkey](https://chromewebstore.google.com/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=ja)で使うことを想定しています。",
-    "scripts": {
-        "build": "npx webpack --mode=production"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/aozou99/TampermonkeyScripts.git"
-    },
-    "author": "A.A",
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/aozou99/TampermonkeyScripts/issues"
-    },
-    "homepage": "https://github.com/aozou99/TampermonkeyScripts#readme",
-    "devDependencies": {
-        "ts-loader": "^9.5.1",
-        "typescript": "^5.4.5",
-        "webpack": "^5.91.0",
-        "webpack-cli": "^5.1.4",
-        "webpack-userscript": "^3.2.2"
-    }
+  "name": "temper-monkey-scripts",
+  "version": "0.1.3",
+  "description": "## 概要 思い付きで作ったUserScript置き場です。   [Tampermonkey](https://chromewebstore.google.com/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=ja)で使うことを想定しています。",
+  "scripts": {
+    "build": "npx webpack --mode=production"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aozou99/TampermonkeyScripts.git"
+  },
+  "author": "A.A",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aozou99/TampermonkeyScripts/issues"
+  },
+  "homepage": "https://github.com/aozou99/TampermonkeyScripts#readme",
+  "devDependencies": {
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.4.5",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-userscript": "^3.2.2"
+  }
 }

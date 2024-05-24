@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name マネーフォワードME Web
 // @description Make a few changes to the design of MoneyforwardME
-// @version v0.1.2
+// @version 0.1.2
 // @author A.A
 // @homepage https://github.com/aozou99/TampermonkeyScripts#readme
 // @supportURL https://github.com/aozou99/TempermonkeyScripts
