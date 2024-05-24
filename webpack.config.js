@@ -1,5 +1,8 @@
 const path = require('path');
+const fs = require('fs');
 const { UserscriptPlugin } = require('webpack-userscript');
+
+const version = fs.readFileSync(path.resolve(__dirname, '.version'), 'utf-8').trim();
 
 module.exports = {
     entry: './src/moneyforwardme.user.ts',
@@ -24,7 +27,7 @@ module.exports = {
             headers: {
                 name: 'マネーフォワードME Web',
                 namespace: 'https://github.com/aozou99/TempermonkeyScripts',
-                version: 'v0.1.2',
+                version: version,
                 description: 'Make a few changes to the design of MoneyforwardME',
                 author: 'A.A',
                 match: ['https://moneyforward.com/bs/portfolio', 'https://moneyforward.com/bs/history'],
