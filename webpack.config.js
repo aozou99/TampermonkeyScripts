@@ -34,8 +34,8 @@ module.exports = {
                 iconURL:
                     'https://assets.moneyforward.com/assets/favicon-710b014dd04a85070bb0a55fa894b599015b5310333d38da9c85ad03594bbc20.ico',
                 grant: 'none',
-                updateURL: 'https://github.com/aozou99/TempermonkeyScripts/raw/main/src/moneyforwardme.user.js',
-                downloadURL: 'https://github.com/aozou99/TempermonkeyScripts/raw/main/src/moneyforwardme.user.js',
+                updateURL: 'https://github.com/aozou99/TempermonkeyScripts/raw/main/dist/moneyforwardme.user.js',
+                downloadURL: 'https://github.com/aozou99/TempermonkeyScripts/raw/main/dist/moneyforwardme.user.js',
                 supportURL: 'https://github.com/aozou99/TempermonkeyScripts',
             },
         }),
