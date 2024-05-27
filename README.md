@@ -9,7 +9,8 @@ Web版のマネーフォワードMEで、今投資でどのぐらい儲かって
 評価損益をまとめて表示させています。
 
 #### 効果
-赤枠のところが表示されるようになります。
+赤枠のところが表示されるようになります。  
+
 *https://moneyforward.com/bs/portfolio*
 ![new_mosaic_mfme1](https://github.com/aozou99/TampermonkeyScripts/assets/21310288/06a94cc1-7e10-4ff1-8a79-832efd0a68e9)
 ![new_mosaic_mfme2](https://github.com/aozou99/TampermonkeyScripts/assets/21310288/e81518a0-d5fe-4fab-82d3-456af3a7f59b)
