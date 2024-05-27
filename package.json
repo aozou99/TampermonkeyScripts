@@ -1,6 +1,6 @@
 {
   "name": "temper-monkey-scripts",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "## 概要 思い付きで作ったUserScript置き場です。   [Tampermonkey](https://chromewebstore.google.com/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=ja)で使うことを想定しています。",
   "scripts": {
     "build": "npx webpack --mode=production"
