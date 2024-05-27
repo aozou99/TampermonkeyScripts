@@ -17,4 +17,6 @@ Web版のマネーフォワードMEで、今投資でどのぐらい儲かって
 
 
 *https://moneyforward.com/bs/history*
-![new_mosaic_mfme4](https://github.com/aozou99/TampermonkeyScripts/assets/21310288/df51993d-ea98-4630-9798-b95c05a24877)
+![new_mosaic_mfme4](https://github.com/aozou99/TampermonkeyScripts/assets/21310288/108a0357-e249-40f6-b872-649861f76724)
+
+
