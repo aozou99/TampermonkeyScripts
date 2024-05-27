@@ -6,6 +6,7 @@ const version = fs.readFileSync(path.resolve(__dirname, '.version'), 'utf-8').tr
 
 module.exports = {
     entry: './src/moneyforwardme.user.ts',
+    mode: 'production',
     module: {
         rules: [
             {

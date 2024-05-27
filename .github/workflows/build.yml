@@ -46,14 +46,14 @@ jobs:
                   jq --arg new_version "$NEW_VERSION" '.version = $new_version' package.json > tmp.$$.json && mv tmp.$$.json package.json
 
             - name: Build project
-              run: npx webpack --mode=production
+              run: npx webpack
 
             - name: Commit changes
               run: |
                   # Commit and push changes
                   git config --global user.name 'github-actions[bot]'
                   git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-                  git add .version package.json src/moneyforwardme.user.ts dist/moneyforwardme.user.js
+                  git add .version package.json dist/moneyforwardme.user.js dist/moneyforwardme.meta.js
                   git commit -m "Build and commit from GitHub Actions - Increment version to $NEW_VERSION"
                   git push origin main
               env:
