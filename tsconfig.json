@@ -1,12 +1,12 @@
 {
     "compilerOptions": {
         "target": "ES5",
-        "lib": ["DOM", "es7"],
+        "lib": ["DOM", "es2021"],
         "outDir": "./dist",
         "strict": true,
         "module": "commonjs",
         "esModuleInterop": true,
         "skipLibCheck": true
     },
-    "include": ["./src/**/*"]
+    "include": ["./src/**/*", "global.d.ts"]
 }
