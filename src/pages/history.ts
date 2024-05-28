@@ -3,6 +3,8 @@ import { HttpHookProp, hookFetch, hookXHR } from '../http/networkHooks';
 
 const activeSectionLabelSelector = '.highcharts-legend-item:not(.highcharts-legend-item-hidden) tspan';
 
+let hiddenSectionIndexs: number[] = [];
+
 export function handleHistoryPage(): void {
     setCss();
     setNetWorkHook();
@@ -155,20 +157,47 @@ function getActivePeriod(): string {
 }
 
 async function addClickHandlers() {
-    await sleep(300);
+    await sleep(10);
     const legendItems = document.querySelectorAll('.highcharts-legend-item');
     legendItems.forEach((e) => {
-        e.addEventListener('click', update);
+        e.addEventListener('click', () => {
+            update();
+            hiddenSectionIndexs = getHiddenSectionIndexs();
+        });
     });
 }
 
+function getHiddenSectionIndexs(): number[] {
+    const labels = document.querySelectorAll('.highcharts-legend-item');
+    const indexs: number[] = [];
+    labels.forEach((e, i) => {
+        if (e.classList.contains('highcharts-legend-item-hidden')) {
+            indexs.push(i);
+        }
+    });
+    return indexs;
+}
+
 function setNetWorkHook() {
-    const cb = (prop: HttpHookProp) => {
+    const cb = async (prop: HttpHookProp) => {
         if (prop.url.includes('https://moneyforward.com/update_chart/')) {
-            addClickHandlers();
+            await addClickHandlers();
+            await recoverHideSection();
             update();
         }
     };
     hookXHR(cb);
     hookFetch(cb);
+}
+
+async function recoverHideSection() {
+    const labels = document.querySelectorAll('.highcharts-legend-item');
+    hiddenSectionIndexs.forEach((i) => {
+        const clickEvent = new MouseEvent('click', {
+            view: window,
+            bubbles: true,
+            cancelable: true,
+        });
+        labels.item(i).dispatchEvent(clickEvent);
+    });
 }
