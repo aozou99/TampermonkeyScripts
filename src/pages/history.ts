@@ -83,10 +83,96 @@ function genTotalPriceHtml(totalPrice: number, period: string, changePrice: numb
 }
 
 async function kick() {
+    await addExtraPeriodButtons();
     const defaultPeriod = document.querySelector('[href="/update_chart/30"]');
     if (defaultPeriod) {
         (defaultPeriod as HTMLElement).click();
     }
+}
+
+async function addExtraPeriodButtons() {
+    await sleep(10);
+    const oneYearBtn = document.querySelector('[href="/update_chart/365"]') as HTMLAnchorElement | null;
+    if (!oneYearBtn || !oneYearBtn.parentNode) {
+        return;
+    }
+
+    const extras: { days: number; label: string }[] = [
+        { days: 730, label: '2年' },
+        { days: 1095, label: '3年' },
+    ];
+
+    let anchor: HTMLElement = oneYearBtn;
+    for (const { days, label } of extras) {
+        const href = `/update_chart/${days}`;
+        const existing = document.querySelector(`[href="${href}"]`) as HTMLElement | null;
+        if (existing) {
+            anchor = existing;
+            continue;
+        }
+        const newBtn = oneYearBtn.cloneNode(true) as HTMLAnchorElement;
+        newBtn.setAttribute('href', href);
+        const termSpan = newBtn.querySelector('.term');
+        if (termSpan) {
+            termSpan.textContent = label;
+        } else {
+            newBtn.textContent = label;
+        }
+        newBtn.classList.remove('active');
+        newBtn.addEventListener(
+            'click',
+            (e) => {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                newBtn.blur();
+                void triggerUpdateChart(days, newBtn);
+            },
+            true,
+        );
+        anchor.parentNode?.insertBefore(newBtn, anchor.nextSibling);
+        anchor = newBtn;
+    }
+}
+
+async function triggerUpdateChart(days: number, clickedBtn: HTMLElement) {
+    const indicator = clickedBtn.querySelector('.indicator') as HTMLElement | null;
+    const term = clickedBtn.querySelector('.term') as HTMLElement | null;
+    indicator?.classList.remove('hide');
+    term?.classList.add('hide');
+    try {
+        const csrfToken =
+            (document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement | null)?.content || '';
+        const resp = await fetch(`/update_chart/${days}`, {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+                Accept: '*/*;q=0.5, text/javascript, application/javascript, application/ecmascript, application/x-ecmascript',
+                'X-CSRF-Token': csrfToken,
+                'X-Requested-With': 'XMLHttpRequest',
+            },
+        });
+        if (!resp.ok) {
+            return;
+        }
+        const js = await resp.text();
+        const script = document.createElement('script');
+        script.textContent = js;
+        document.head.appendChild(script);
+        document.head.removeChild(script);
+
+        setActivePeriodButton(clickedBtn);
+        await sleep(100);
+        setActivePeriodButton(clickedBtn);
+        update();
+    } finally {
+        indicator?.classList.add('hide');
+        term?.classList.remove('hide');
+    }
+}
+
+function setActivePeriodButton(btn: HTMLElement) {
+    document.querySelectorAll('.btn.range-radio.active').forEach((b) => b.classList.remove('active'));
+    btn.classList.add('active');
 }
 
 async function update() {
